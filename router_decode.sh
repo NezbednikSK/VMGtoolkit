@@ -11,7 +11,5 @@
 # dependencies: openssl, xxd, sed, cut
 # sed, cut from busybox will work
 
-# TODO: longer responses have garbage in the front
-
-echo "$2" | sed "s.\\\\..g" | openssl enc -d -a | openssl aes-256-cbc -d -K "$1" -iv "$(echo "$3" | openssl enc -d -a | xxd -c 0 -p | cut -b 1-32)"
+echo "$2" | sed "s.\\\\..g" | openssl enc -d -a -A | openssl aes-256-cbc -d -K "$1" -iv "$(echo "$3" | openssl enc -d -a -A | xxd -c 0 -p | cut -b 1-32)"
 echo
