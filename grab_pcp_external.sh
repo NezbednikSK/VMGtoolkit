@@ -1,4 +1,3 @@
 #!/bin/sh
-# SPDX-License-Identifier: GPL-3.0-or-later
-
-jq --raw-output ".Object[] | .ExternalIPAddress" pcp_data.json | head -n $1 | sed "s.:.\\n.g" | tail -n 1
+cd "$(dirname "$0")"
+./grab_pcp.sh | jq -M --raw-output --arg "port" "$1" ".Object[] | select(.RequiredInternalPort | tostring | startswith(\$port)) | .ExternalIPAddress" | sed "s.:.\\n.g" | tail -n 1
